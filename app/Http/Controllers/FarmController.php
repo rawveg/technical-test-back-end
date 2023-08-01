@@ -29,11 +29,24 @@ class FarmController extends Controller
         return new FarmResource($farm);
     }
 
+    /**
+     * Display related Turbines
+     *
+     * @param  \App\Models\Farm  $farm
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function turbineIndex(Farm $farm)
     {
         return TurbineResource::collection($farm->turbines);
     }
 
+    /**
+     * Display a specific related Turbine
+     *
+     * @param  \App\Models\Farm  $farm
+     * @param  string  $turbine
+     * @return \App\Http\Resources\TurbineResource
+     */
     public function showTurbine(Farm $farm, string $turbine)
     {
         return new TurbineResource($farm->turbines()->findOrFail($turbine));
