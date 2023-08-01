@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FarmResource;
+use App\Http\Resources\TurbineResource;
 use App\Models\Farm;
 
 class FarmController extends Controller
@@ -26,5 +27,15 @@ class FarmController extends Controller
     public function show(Farm $farm)
     {
         return new FarmResource($farm);
+    }
+
+    public function turbineIndex(Farm $farm)
+    {
+        return TurbineResource::collection($farm->turbines);
+    }
+
+    public function showTurbine(Farm $farm, string $turbine)
+    {
+        return new TurbineResource($farm->turbines()->findOrFail($turbine));
     }
 }

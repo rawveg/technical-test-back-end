@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\TurbineController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([], function () {
     Route::apiResource('farms', FarmController::class)->only(['index', 'show']);
+    Route::apiResource('turbines', TurbineController::class)->only(['index', 'show']);
+
+    Route::group(['prefix' => 'farms/{farm}/turbines'], function () {
+        Route::get('/', [FarmController::class, 'turbineIndex'])->name('farms.turbines.index');
+        Route::get('/{turbine}', [FarmController::class, 'showTurbine'])->name('farms.turbines.show');
+    });
 });

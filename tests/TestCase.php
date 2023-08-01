@@ -27,4 +27,17 @@ abstract class TestCase extends BaseTestCase
         );
         return $this->farm;
     }
+
+    public function turbine()
+    {
+        $this->turbine ??= Turbine::factory()->create(
+            [
+                'name' => 'Test Turbine',
+                'farm_id' => $this->farm()->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
+        );
+        return $this->turbine;
+    }
 }
