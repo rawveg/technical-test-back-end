@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ComponentTypeController;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\TurbineController;
@@ -21,9 +22,16 @@ Route::group([], function () {
     Route::apiResource('farms', FarmController::class)->only(['index', 'show']);
     Route::apiResource('turbines', TurbineController::class)->only(['index', 'show']);
     Route::apiResource('component-types', ComponentTypeController::class)->only(['index', 'show']);
+    Route::apiResource('components', ComponentController::class)->only(['index', 'show']);
 
     Route::group(['prefix' => 'farms/{farm}/turbines'], function () {
         Route::get('/', [FarmController::class, 'turbineIndex'])->name('farms.turbines.index');
         Route::get('/{turbine}', [FarmController::class, 'showTurbine'])->name('farms.turbines.show');
+    });
+
+    Route::group(['prefix' => 'turbines/{turbine}/components'], function () {
+        Route::get('/', [TurbineController::class, 'componentsIndex'])->name('turbines.components.index');
+        Route::get('/{component}', [TurbineController::class, 'showComponent'])
+            ->name('turbines.components.show');
     });
 });

@@ -10,7 +10,7 @@ class GetTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->turbine();
+        $this->componentItem();
     }
 
     /**
@@ -48,9 +48,37 @@ class GetTest extends TestCase
      */
     public function get_resource()
     {
-        $this->get(sprintf('/api/turbines/%s', $this->farm()->id))
+        $this->get(sprintf('/api/turbines/%s', $this->turbine()->id))
             ->assertJsonFragment($this->turbine()->toArray())
             ->assertStatus(200);
     }
 
+    /**
+     * Get Turbine Collection for Farm
+     * @test
+     */
+    public function get_components_collection()
+    {
+        $this->get(
+            sprintf('/api/turbines/%s/components', $this->turbine()->id)
+        )
+            ->assertJsonFragment($this->componentItem()->toArray())
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function get_turbine_resource()
+    {
+        $this->get(
+            sprintf(
+                '/api/turbines/%s/components/%s',
+                $this->turbine()->id,
+                $this->componentItem()->id
+            )
+        )
+            ->assertJsonFragment($this->componentItem()->toArray())
+            ->assertStatus(200);
+    }
 }
