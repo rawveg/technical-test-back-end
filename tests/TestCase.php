@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\ComponentType;
 use App\Models\Farm;
 use App\Models\Turbine;
 use Carbon\Carbon;
@@ -15,8 +16,9 @@ abstract class TestCase extends BaseTestCase
 
     private ?Farm $farm = null;
     private ?Turbine $turbine = null;
+    private ?ComponentType $componentType = null;
 
-    public function farm()
+    public function farm(): Farm
     {
         $this->farm ??= Farm::factory()->create(
             [
@@ -28,7 +30,7 @@ abstract class TestCase extends BaseTestCase
         return $this->farm;
     }
 
-    public function turbine()
+    public function turbine(): Turbine
     {
         $this->turbine ??= Turbine::factory()->create(
             [
@@ -39,5 +41,15 @@ abstract class TestCase extends BaseTestCase
             ]
         );
         return $this->turbine;
+    }
+
+    public function componentType(): ComponentType
+    {
+        $this->componentType ??= ComponentType::factory()->create(
+            [
+                'name' => 'Test Component Type',
+            ]
+        );
+        return $this->componentType;
     }
 }
