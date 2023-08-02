@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Component;
 use App\Models\ComponentType;
 use App\Models\Farm;
+use App\Models\GradeType;
 use App\Models\Turbine;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -19,6 +20,7 @@ abstract class TestCase extends BaseTestCase
     private ?Turbine $turbine = null;
     private ?ComponentType $componentType = null;
     private ?Component $component = null;
+    private ?GradeType $gradeType = null;
 
     /**
      * @return \App\Models\Farm
@@ -76,5 +78,18 @@ abstract class TestCase extends BaseTestCase
             ]
         );
         return $this->component;
+    }
+
+    /**
+     * @return \App\Models\GradeType
+     */
+    public function gradeType(): GradeType
+    {
+        $this->gradeType ??= GradeType::factory()->create(
+            [
+                'name' => 'Test Grade Type',
+            ]
+        );
+        return $this->gradeType;
     }
 }

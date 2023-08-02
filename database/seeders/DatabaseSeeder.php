@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FarmSeeder::class);
         $this->call(TurbineSeeder::class);
         $this->call(ComponentTypeSeeder::class);
+        $this->call(ComponentSeeder::class);
+        $this->call(GradeTypeSeeder::class);
     }
 }

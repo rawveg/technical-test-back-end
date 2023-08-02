@@ -3,6 +3,7 @@
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ComponentTypeController;
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\GradeTypeController;
 use App\Http\Controllers\TurbineController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,7 @@ Route::group([], function () {
     Route::apiResource('turbines', TurbineController::class)->only(['index', 'show']);
     Route::apiResource('component-types', ComponentTypeController::class)->only(['index', 'show']);
     Route::apiResource('components', ComponentController::class)->only(['index', 'show']);
+    Route::apiResource('grade-types', GradeTypeController::class)->only(['index', 'show']);
 
     Route::group(['prefix' => 'farms/{farm}/turbines'], function () {
         Route::get('/', [FarmController::class, 'turbineIndex'])->name('farms.turbines.index');
