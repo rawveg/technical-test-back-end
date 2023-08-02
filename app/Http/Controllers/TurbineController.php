@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ComponentResource;
+use App\Http\Resources\InspectionResource;
 use App\Http\Resources\TurbineResource;
 use App\Models\Turbine;
 
@@ -50,5 +51,28 @@ class TurbineController extends Controller
     public function showComponent(Turbine $turbine, string $component)
     {
         return new ComponentResource($turbine->components()->findOrFail($component));
+    }
+
+    /**
+     * Display all inspections for turbine
+     *
+     * @param  \App\Models\Turbine  $turbine
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function inspectionsIndex(Turbine $turbine)
+    {
+        return InspectionResource::collection($turbine->inspections);
+    }
+
+    /**
+     * Display specific inspection for turbine
+     *
+     * @param  \App\Models\Turbine  $turbine
+     * @param  string  $inspection
+     * @return \App\Http\Resources\InspectionResource
+     */
+    public function showInspection(Turbine $turbine, string $inspection)
+    {
+        return new InspectionResource($turbine->inspections()->findOrFail($inspection));
     }
 }

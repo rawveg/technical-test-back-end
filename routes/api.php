@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([], function () {
     Route::apiResource('farms', FarmController::class)->only(['index', 'show']);
-    Route::apiResource('turbines', TurbineController::class)->only(['index', 'show']);
     Route::apiResource('component-types', ComponentTypeController::class)->only(['index', 'show']);
     Route::apiResource('components', ComponentController::class)->only(['index', 'show']);
     Route::apiResource('grade-types', GradeTypeController::class)->only(['index', 'show']);
@@ -31,9 +30,19 @@ Route::group([], function () {
         Route::get('/{turbine}', [FarmController::class, 'showTurbine'])->name('farms.turbines.show');
     });
 
-    Route::group(['prefix' => 'turbines/{turbine}/components'], function () {
-        Route::get('/', [TurbineController::class, 'componentsIndex'])->name('turbines.components.index');
-        Route::get('/{component}', [TurbineController::class, 'showComponent'])
-            ->name('turbines.components.show');
+    Route::group(['prefix' => 'turbines'], function () {
+        Route::get('/', [TurbineController::class, 'index'])->name('turbines.index');
+        Route::get('/{turbine}', [TurbineController::class, 'show'])->name('turbines.show');
+        Route::group(['prefix' => '/{turbine}/components'], function () {
+            Route::get('/', [TurbineController::class, 'componentsIndex'])->name('turbines.components.index');
+            Route::get('/{component}', [TurbineController::class, 'showComponent'])
+                ->name('turbines.components.show');
+        });
+        Route::group(['prefix' => '/{turbine}/inspections'], function () {
+            Route::get('/', [TurbineController::class, 'inspectionsIndex'])->name('turbines.inspections.index');
+            Route::get('/{inspection}', [TurbineController::class, 'showInspection'])
+                ->name('turbines.inspections.show');
+        });
     });
+
 });

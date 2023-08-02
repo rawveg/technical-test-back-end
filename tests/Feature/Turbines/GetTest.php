@@ -11,6 +11,7 @@ class GetTest extends TestCase
     {
         parent::setUp();
         $this->componentItem();
+        $this->inspection();
     }
 
     /**
@@ -79,6 +80,34 @@ class GetTest extends TestCase
             )
         )
             ->assertJsonFragment($this->componentItem()->toArray())
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function get_inspections_collection()
+    {
+        $this->get(
+            sprintf('/api/turbines/%s/inspections', $this->turbine()->id)
+        )
+            ->assertJsonFragment($this->inspection()->toArray())
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function get_inspection_resource()
+    {
+        $this->get(
+            sprintf(
+                '/api/turbines/%s/inspections/%s',
+                $this->turbine()->id,
+                $this->inspection()->id
+            )
+        )
+            ->assertJsonFragment($this->inspection()->toArray())
             ->assertStatus(200);
     }
 }

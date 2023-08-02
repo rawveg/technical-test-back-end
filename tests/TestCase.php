@@ -6,6 +6,7 @@ use App\Models\Component;
 use App\Models\ComponentType;
 use App\Models\Farm;
 use App\Models\GradeType;
+use App\Models\Inspection;
 use App\Models\Turbine;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -21,6 +22,7 @@ abstract class TestCase extends BaseTestCase
     private ?ComponentType $componentType = null;
     private ?Component $component = null;
     private ?GradeType $gradeType = null;
+    private ?Inspection $inspection = null;
 
     /**
      * @return \App\Models\Farm
@@ -91,5 +93,18 @@ abstract class TestCase extends BaseTestCase
             ]
         );
         return $this->gradeType;
+    }
+
+    /**
+     * @return \App\Models\Inspection
+     */
+    public function inspection(): Inspection
+    {
+        $this->inspection ??= Inspection::factory()->create(
+            [
+                'turbine_id' => $this->turbine()->id,
+            ]
+        );
+        return $this->inspection;
     }
 }
