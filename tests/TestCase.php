@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Component;
 use App\Models\ComponentType;
 use App\Models\Farm;
+use App\Models\Grade;
 use App\Models\GradeType;
 use App\Models\Inspection;
 use App\Models\Turbine;
@@ -22,6 +23,7 @@ abstract class TestCase extends BaseTestCase
     private ?ComponentType $componentType = null;
     private ?Component $component = null;
     private ?GradeType $gradeType = null;
+    private ?Grade $grade = null;
     private ?Inspection $inspection = null;
 
     /**
@@ -106,5 +108,20 @@ abstract class TestCase extends BaseTestCase
             ]
         );
         return $this->inspection;
+    }
+
+    /**
+     * @return \App\Models\Grade
+     */
+    public function grade(): Grade
+    {
+        $this->grade ??= Grade::factory()->create(
+            [
+                'inspection_id' => $this->inspection()->id,
+                'component_id' => $this->componentItem()->id,
+                'grade_type_id' => $this->gradeType()->id,
+            ]
+        );
+        return $this->grade;
     }
 }
