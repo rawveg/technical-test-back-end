@@ -11,6 +11,7 @@ class GetTest extends TestCase
     {
         parent::setUp();
         $this->inspection();
+        $this->grade();
     }
 
     /**
@@ -50,6 +51,34 @@ class GetTest extends TestCase
     {
         $this->get(sprintf('/api/inspections/%s', $this->inspection()->id))
             ->assertJsonFragment($this->inspection()->toArray())
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function get_grades_collection()
+    {
+        $this->get(
+            sprintf('/api/inspections/%s/grades', $this->inspection()->id)
+        )
+            ->assertJsonFragment($this->grade()->toArray())
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function get_grade_resource()
+    {
+        $this->get(
+            sprintf(
+                '/api/inspections/%s/grades/%s',
+                $this->inspection()->id,
+                $this->grade()->id
+            )
+        )
+            ->assertJsonFragment($this->grade()->toArray())
             ->assertStatus(200);
     }
 }

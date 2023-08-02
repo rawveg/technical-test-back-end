@@ -26,7 +26,6 @@ Route::group([], function () {
     Route::apiResource('component-types', ComponentTypeController::class)->only(['index', 'show']);
     Route::apiResource('grade-types', GradeTypeController::class)->only(['index', 'show']);
     Route::apiResource('grades', GradeController::class)->only(['index', 'show']);
-    Route::apiResource('inspections', InspectionController::class)->only(['index', 'show']);
 
     Route::group(['prefix' => 'farms/{farm}/turbines'], function () {
         Route::get('/', [FarmController::class, 'turbineIndex'])->name('farms.turbines.index');
@@ -55,6 +54,16 @@ Route::group([], function () {
             Route::get('/', [ComponentController::class, 'gradesIndex'])->name('components.grades.index');
             Route::get('/{grade}', [ComponentController::class, 'showGrade'])
                 ->name('components.grades.show');
+        });
+    });
+
+    Route::group(['prefix' => 'inspections'], function () {
+        Route::get('/', [InspectionController::class, 'index'])->name('inspections.index');
+        Route::get('/{inspection}', [InspectionController::class, 'show'])->name('inspections.show');
+        Route::group(['prefix' => '/{inspection}/grades'], function () {
+            Route::get('/', [InspectionController::class, 'gradesIndex'])->name('inspections.grades.index');
+            Route::get('/{grade}', [InspectionController::class, 'showGrade'])
+                ->name('inspections.grades.show');
         });
     });
 
