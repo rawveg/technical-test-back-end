@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::group([], function () {
     Route::apiResource('farms', FarmController::class)->only(['index', 'show']);
     Route::apiResource('component-types', ComponentTypeController::class)->only(['index', 'show']);
-    Route::apiResource('components', ComponentController::class)->only(['index', 'show']);
     Route::apiResource('grade-types', GradeTypeController::class)->only(['index', 'show']);
     Route::apiResource('grades', GradeController::class)->only(['index', 'show']);
 
@@ -44,6 +43,16 @@ Route::group([], function () {
             Route::get('/', [TurbineController::class, 'inspectionsIndex'])->name('turbines.inspections.index');
             Route::get('/{inspection}', [TurbineController::class, 'showInspection'])
                 ->name('turbines.inspections.show');
+        });
+    });
+
+    Route::group(['prefix' => 'components'], function () {
+        Route::get('/', [ComponentController::class, 'index'])->name('components.index');
+        Route::get('/{component}', [ComponentController::class, 'show'])->name('components.show');
+        Route::group(['prefix' => '/{component}/grades'], function () {
+            Route::get('/', [ComponentController::class, 'gradesIndex'])->name('components.grades.index');
+            Route::get('/{grade}', [ComponentController::class, 'showGrade'])
+                ->name('components.grades.show');
         });
     });
 
