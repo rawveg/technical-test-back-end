@@ -19,19 +19,27 @@ class GradeSeeder extends Seeder
      */
     public function run()
     {
-        Turbine::all()->each(fn($turbine) => Grade::factory()
-            ->for(Inspection::factory()->for($turbine)->create())
-            ->for(
-                Component::factory()
-                    ->for($turbine)
-                    ->create(
-                        [
-                            'component_type_id' => (ComponentType::factory()->create())->id,
-                        ]
-                    )
-            )
-            ->for(GradeType::factory()->create())
-            ->create()
-        );
+        Turbine::all()->each(function ($turbine) {
+            Grade::factory()
+                ->for(Inspection::factory()->for($turbine)->create())
+                ->for(
+                    Component::factory()
+                        ->for($turbine)
+                        ->create(
+                            [
+                                'component_type_id' => (ComponentType::factory()->create())->id,
+                            ]
+                        )
+                )
+                ->for(GradeType::factory()->create())
+                ->create();
+            Component::factory(rand(1,5))
+                ->for($turbine)
+                ->create(
+                    [
+                        'component_type_id' => (ComponentType::factory()->create())->id,
+                    ]
+                );
+        });
     }
 }
